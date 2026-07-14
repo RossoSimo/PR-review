@@ -1,0 +1,30 @@
+services:
+
+  redis:
+    image: redis:alpine
+    container_name: ${CONTAINER_PREFIX}redis
+    ports:
+      - "6379:6379"
+    command: redis-server --save 20 1 --loglevel warning --requirepass your_password
+    volumes:
+      - ${DATA_PATH}/redis:/data
+      - ${CONFIG_PATH}/redis:/usr/local/etc/redis
+    environment:
+      - TZ=${TZ}
+    restart: ${RESTART_POLICY}
+
+  postgres:
+    image: postgres:latest
+    container_name: ${CONTAINER_PREFIX}postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ${DATA_PATH}/postgres:/var/lib/postgresql/data
+      - ${CONFIG_PATH}/postgres:/etc/postgresql/conf.d
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=your_password
+      - POSTGRES_DB=postgres
+      - TZ=${TZ}
+    shm_size: 128mb
+    restart: ${RESTART_POLICY}

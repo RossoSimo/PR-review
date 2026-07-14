@@ -1,0 +1,17 @@
+[project]
+name = "pr-review"
+version = "0.1.0"
+description = "Short description of the project."
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "asyncpg>=0.31.0",
+    "fastapi>=0.139.0",
+    "ollama>=0.6.2",
+    "pygithub>=2.9.1",
+    "pytest>=9.1.1",
+    "redis>=8.0.1",
+    "rq>=2.10.0",
+    "ruff>=0.15.21",
+    "sqlalchemy>=2.0.51",
+]
