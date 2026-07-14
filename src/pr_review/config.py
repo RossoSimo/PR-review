@@ -19,7 +19,7 @@ class Settings(BaseSettings):
 
     # GitHub App / webhook
     github_webhook_secret: str
-    github_app_id: str = "4296231"
+    github_app_id: str = ""
     github_private_key_path: str = ""
 
     # Ollama (local LLM, see AGENTS.md — provider-agnostic behind llm/)
