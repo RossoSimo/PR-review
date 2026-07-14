@@ -28,6 +28,8 @@ app = FastAPI(title="PR Review Bot")
 
 app.include_router(webhook_router)
 
+def divide(a, b):
+    return a / b
 
 @app.get("/health")
 async def health() -> dict[str, str]:

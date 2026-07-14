@@ -40,6 +40,7 @@ def generate_review_comments(
     )
 
     raw = response["message"]["content"]
+    logger.info("Raw model output for %s: %r", filename, raw[:500])
 
     try:
         data = json.loads(raw)
