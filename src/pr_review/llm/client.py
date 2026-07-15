@@ -48,9 +48,24 @@ def generate_review_comments(
         logger.warning("Model returned invalid JSON for %s: %r", filename, raw[:200])
         return []
 
-    # format="json" guarantees valid JSON syntax but not our schema, so we
-    # still validate each item defensively.
-    items = data if isinstance(data, list) else data.get("comments", [])
+    # format="json" guarantees valid JSON syntax but not our exact shape.
+    # In practice this local model sometimes returns a bare array, a single
+    # comment object (when it only has one thing to say), an empty object
+    # (when it has nothing to say), or {"comments": [...]}. Handle all of
+    # them rather than silently dropping valid single-comment responses.
+    if isinstance(data, list):
+        items = data
+    elif isinstance(data, dict):
+        if "comments" in data:
+            items = data["comments"]
+        elif "line" in data:
+            # looks like a single comment object, not a wrapper
+            items = [data]
+        else:
+            # empty {} or some other unrecognized shape -> no issues found
+            items = []
+    else:
+        items = []
 
     comments: list[ReviewComment] = []
     for item in items:
